@@ -7,7 +7,7 @@ include 'app/presentation/templates/header.php';
 <div class="titulo-seccion">
     <div class="container">
         <h1>Contacto</h1>
-        <p>¿Tienes preguntas? Estamos aquí para ayudarte.</p>
+        <p>¿Tienes preguntas? Estamos aquí para Ayudarte.</p>
     </div>
 </div>
 <link rel="stylesheet" href="<?php echo $base_url; ?>public/css/styles.css">

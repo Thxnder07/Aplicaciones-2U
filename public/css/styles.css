@@ -112,7 +112,7 @@ footer .container { display: flex; justify-content: space-between; align-items: 
 
 /* 2. Definimos la transición suave para las imágenes */
 .card img, .tarjeta-ponente img, .patrocinador-card img {
-    transition: transform 0.5s ease; /* El zoom será un poco más lento que la subida */
+    transition: transform 0.5s ease ; /* El zoom será un poco más lento que la subida */
 }
 
 /* 3. AL PASAR EL MOUSE (HOVER): La magia ocurre aquí */
@@ -120,12 +120,12 @@ footer .container { display: flex; justify-content: space-between; align-items: 
 .tarjeta-ponente:hover, 
 .patrocinador-card:hover {
     transform: translateY(-10px); /* La tarjeta sube 10 pixeles */
-    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.15); /* La sombra crece para dar sensación de altura */
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.164); /* La sombra crece para dar sensación de altura */
     border-color: var(--primary-color); /* (Opcional) El borde se pinta de azul */
 }
 
 /* 4. EFECTO ZOOM: La imagen crece ligeramente */
-.card:hover img, 
-.tarjeta-ponente:hover img {
+.card:hover    img, 
+.tarjeta-ponente  :hover img {
     transform: scale(1.1); /* Aumenta el tamaño de la imagen un 10% */
 }
