@@ -2,9 +2,6 @@
 Avance de producto 2da unidad del curso de Aplicaciones Disstrbuidas 1
 
 
-Aquí tienes la **asignación aleatoria de actividades** para los 6 integrantes, basada en el **checklist MVC reformulado**, *sin seguir el orden en que fueron mencionados*.
-
----
 
 # 🎯 **ASIGNACIÓN ALEATORIA DE ACTIVIDADES (Patrón MVC)**
 
@@ -97,6 +94,3 @@ Aquí tienes la **asignación aleatoria de actividades** para los 6 integrantes,
 
 ---
 
-# 📌 ¿Quieres ahora que genere un **documento PDF**, **presentación**, o la **estructura completa del proyecto MVC con carpetas y archivos base**?
-
-Solo indícame: **“Generar estructura MVC”**, **“Generar presentación”** o **“Generar PDF”**.
