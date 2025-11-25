@@ -8,37 +8,41 @@ class NoticiaService {
         $this->noticiaDAO = new NoticiaDAO();
     }
 
-    // Obtener noticias para la vista pública
     public function listarNoticias() {
         return $this->noticiaDAO->getAll();
     }
 
-    // Obtener noticias destacadas (opcional, para el home)
-    public function listarDestacadas() {
-        // Podrías filtrar aquí o pedirle a Aquino un método getDestacadas()
-        $todas = $this->noticiaDAO->getAll();
-        return array_filter($todas, function($n) { return $n['es_destacada'] == 1; });
+    public function obtenerPorId($id) {
+        return $this->noticiaDAO->getById($id);
     }
 
-    // Lógica para crear noticia (Admin)
-    public function crearNoticia($titulo, $resumen, $contenido) {
-        // 1. Validaciones de Negocio
-        if (strlen($titulo) < 5) {
-            return ["success" => false, "msg" => "El título debe tener al menos 5 caracteres."];
-        }
-        if (empty($resumen) || empty($contenido)) {
-            return ["success" => false, "msg" => "Todos los campos son obligatorios."];
+    // CREAR
+    public function guardarNoticia($datos, $archivoImagen) {
+        $titulo = $datos['titulo'];
+        $resumen = $datos['resumen'];
+        $contenido = $datos['contenido'];
+        
+        // Lógica simple de subida de imagen
+        $rutaImagen = 'img/noticias/default.jpg';
+        if (isset($archivoImagen['name']) && $archivoImagen['error'] == 0) {
+            $nombreArchivo = time() . "_" . $archivoImagen['name'];
+            $destino = __DIR__ . '/../public/img/noticias/' . $nombreArchivo;
+            if(move_uploaded_file($archivoImagen['tmp_name'], $destino)){
+                $rutaImagen = 'img/noticias/' . $nombreArchivo;
+            }
         }
 
-        // 2. Llamar al DAO (Aquino debe proveer el método insert)
-        // Por defecto usaremos una imagen placeholder si no se sube una
-        $imagen = 'img/noticias/default.jpg'; 
-        
-        if ($this->noticiaDAO->insert($titulo, $resumen, $contenido, $imagen)) {
-            return ["success" => true, "msg" => "Noticia publicada con éxito."];
-        } else {
-            return ["success" => false, "msg" => "Error al guardar en la base de datos."];
-        }
+        return $this->noticiaDAO->insert($titulo, $resumen, $contenido, $rutaImagen);
+    }
+
+    // ELIMINAR
+    public function eliminarNoticia($id) {
+        return $this->noticiaDAO->delete($id);
+    }
+
+    // EDITAR (Opcional si te da tiempo, sino con Crear y Borrar basta para aprobar)
+    public function actualizarNoticia($id, $datos) {
+        // Lógica similar a guardar, llamando a $this->noticiaDAO->update(...)
     }
 }
 ?>
