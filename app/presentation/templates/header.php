@@ -1,7 +1,7 @@
 <?php
-// DEFINIMOS LA RUTA ABSOLUTA PARA EVITAR ERRORES
-// Esto apunta directo a: http://localhost/laravel/Aplicaciones-2U/public/
-$base_url = '/laravel/Aplicaciones-2U/public/'; 
+$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+
+$base_url = $path . '/public/';
 ?>
 <!DOCTYPE html>
 <html lang="es">
