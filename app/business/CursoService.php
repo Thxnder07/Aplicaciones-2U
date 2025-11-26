@@ -1,14 +1,17 @@
 <?php
 require_once __DIR__ . '/../data/CursoDAO.php';
 require_once __DIR__ . '/../data/EventoDAO.php';
+require_once __DIR__ . '/LogService.php';
 
 class CursoService {
     private $cursoDAO;
     private $eventoDAO;
+    private $logService;
 
     public function __construct() {
         $this->cursoDAO = new CursoDAO();
         $this->eventoDAO = new EventoDAO();
+        $this->logService = new LogService();
     }
 
     // ==========================================================
@@ -78,7 +81,19 @@ class CursoService {
         );
 
         if ($creado) {
-            return ["success" => true, "msg" => "Curso creado exitosamente."];
+            // Obtener el ID del curso recién creado
+            $curso_id = $this->cursoDAO->obtenerUltimoId();
+            
+            // Registrar en log si hay usuario en sesión
+            if (isset($_SESSION['usuario_id'])) {
+                $this->logService->logCrearCurso(
+                    $_SESSION['usuario_id'],
+                    $curso_id,
+                    trim($datos['nombre'] ?? '')
+                );
+            }
+            
+            return ["success" => true, "msg" => "Curso creado exitosamente.", "curso_id" => $curso_id];
         } else {
             return ["success" => false, "errores" => ["Error al crear el curso en la base de datos."]];
         }
@@ -136,6 +151,14 @@ class CursoService {
         }
 
         if ($actualizado) {
+            // Registrar en log si hay usuario en sesión
+            if (isset($_SESSION['usuario_id'])) {
+                $this->logService->logActualizarCurso(
+                    $_SESSION['usuario_id'],
+                    $id,
+                    trim($datos['nombre'] ?? $curso['nombre'])
+                );
+            }
             return ["success" => true, "msg" => "Curso actualizado exitosamente."];
         } else {
             return ["success" => false, "errores" => ["Error al actualizar el curso."]];
@@ -165,9 +188,18 @@ class CursoService {
         }
 
         // Eliminar curso
+        $nombreCurso = $curso['nombre'];
         $eliminado = $this->cursoDAO->eliminar($id);
 
         if ($eliminado) {
+            // Registrar en log si hay usuario en sesión
+            if (isset($_SESSION['usuario_id'])) {
+                $this->logService->logEliminarCurso(
+                    $_SESSION['usuario_id'],
+                    $id,
+                    $nombreCurso
+                );
+            }
             return ["success" => true, "msg" => "Curso eliminado exitosamente."];
         } else {
             return ["success" => false, "errores" => ["Error al eliminar el curso."]];

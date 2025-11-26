@@ -43,6 +43,13 @@ class CursoDAO {
     }
 
     /**
+     * Obtener el último ID insertado
+     */
+    public function obtenerUltimoId() {
+        return $this->conn->lastInsertId();
+    }
+
+    /**
      * Obtener cursos por evento
      */
     public function obtenerPorEvento($evento_id) {

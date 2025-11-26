@@ -46,15 +46,17 @@ $title = 'Gestión de Inscripciones - Admin';
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title>
-    
+
     <link rel="stylesheet" href="../../../../public/css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
     <?php include __DIR__ . '/../../templates/header.php'; ?>
 
@@ -67,7 +69,7 @@ $title = 'Gestión de Inscripciones - Admin';
                 <?php endif; ?>
             </div>
             <div>
-                <a href="../../../../index.php?view=admin/dashboard" class="btn btn-secondary">
+                <a href="index.php?view=admin/dashboard" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Volver
                 </a>
             </div>
@@ -128,8 +130,10 @@ $title = 'Gestión de Inscripciones - Admin';
                 <div class="card text-center">
                     <div class="card-body">
                         <h3 class="text-success">
-                            <?php 
-                            $confirmadas = array_filter($inscripciones, function($i) { return $i['estado'] == 'confirmada'; });
+                            <?php
+                            $confirmadas = array_filter($inscripciones, function ($i) {
+                                return $i['estado'] == 'confirmada';
+                            });
                             echo count($confirmadas);
                             ?>
                         </h3>
@@ -141,8 +145,10 @@ $title = 'Gestión de Inscripciones - Admin';
                 <div class="card text-center">
                     <div class="card-body">
                         <h3 class="text-warning">
-                            <?php 
-                            $canceladas = array_filter($inscripciones, function($i) { return $i['estado'] == 'cancelada'; });
+                            <?php
+                            $canceladas = array_filter($inscripciones, function ($i) {
+                                return $i['estado'] == 'cancelada';
+                            });
                             echo count($canceladas);
                             ?>
                         </h3>
@@ -154,8 +160,10 @@ $title = 'Gestión de Inscripciones - Admin';
                 <div class="card text-center">
                     <div class="card-body">
                         <h3 class="text-info">
-                            <?php 
-                            $conCurso = array_filter($inscripciones, function($i) { return !empty($i['curso_id']); });
+                            <?php
+                            $conCurso = array_filter($inscripciones, function ($i) {
+                                return !empty($i['curso_id']);
+                            });
                             echo count($conCurso);
                             ?>
                         </h3>
@@ -188,42 +196,42 @@ $title = 'Gestión de Inscripciones - Admin';
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach($inscripciones as $inscripcion): ?>
-                                    <?php 
+                                <?php foreach ($inscripciones as $inscripcion): ?>
+                                    <?php
                                     // Aplicar filtro de tipo si está seleccionado
                                     if ($tipo_filtro == 'solo_evento' && !empty($inscripcion['curso_id'])) continue;
                                     if ($tipo_filtro == 'con_curso' && empty($inscripcion['curso_id'])) continue;
                                     ?>
-                                <tr>
-                                    <td>
-                                        <small><?php echo date('d/m/Y H:i', strtotime($inscripcion['fecha_inscripcion'])); ?></small>
-                                    </td>
-                                    <td>
-                                        <strong><?php echo htmlspecialchars($inscripcion['usuario_nombre'] ?? 'N/A'); ?></strong>
-                                    </td>
-                                    <td><?php echo htmlspecialchars($inscripcion['usuario_email'] ?? 'N/A'); ?></td>
-                                    <td>
-                                        <?php echo htmlspecialchars($inscripcion['evento_titulo'] ?? 'N/A'); ?>
-                                    </td>
-                                    <td>
-                                        <?php if (!empty($inscripcion['curso_id'])): ?>
-                                            <span class="badge bg-info"><?php echo htmlspecialchars($inscripcion['curso_nombre'] ?? 'N/A'); ?></span>
-                                        <?php else: ?>
-                                            <span class="text-muted">Solo evento</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-<?php echo ($inscripcion['estado'] == 'confirmada') ? 'success' : 'secondary'; ?>">
-                                            <?php echo ucfirst($inscripcion['estado']); ?>
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <a href="detalle.php?id=<?php echo $inscripcion['id']; ?>" 
-                                           class="btn btn-sm btn-info text-white">
-                                            <i class="fas fa-eye"></i> Ver
-                                        </a>
-                                    </td>
-                                </tr>
+                                    <tr>
+                                        <td>
+                                            <small><?php echo date('d/m/Y H:i', strtotime($inscripcion['fecha_inscripcion'])); ?></small>
+                                        </td>
+                                        <td>
+                                            <strong><?php echo htmlspecialchars($inscripcion['usuario_nombre'] ?? 'N/A'); ?></strong>
+                                        </td>
+                                        <td><?php echo htmlspecialchars($inscripcion['usuario_email'] ?? 'N/A'); ?></td>
+                                        <td>
+                                            <?php echo htmlspecialchars($inscripcion['evento_titulo'] ?? 'N/A'); ?>
+                                        </td>
+                                        <td>
+                                            <?php if (!empty($inscripcion['curso_id'])): ?>
+                                                <span class="badge bg-info"><?php echo htmlspecialchars($inscripcion['curso_nombre'] ?? 'N/A'); ?></span>
+                                            <?php else: ?>
+                                                <span class="text-muted">Solo evento</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-<?php echo ($inscripcion['estado'] == 'confirmada') ? 'success' : 'secondary'; ?>">
+                                                <?php echo ucfirst($inscripcion['estado']); ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="detalle.php?id=<?php echo $inscripcion['id']; ?>"
+                                                class="btn btn-sm btn-info text-white">
+                                                <i class="fas fa-eye"></i> Ver
+                                            </a>
+                                        </td>
+                                    </tr>
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
@@ -236,4 +244,5 @@ $title = 'Gestión de Inscripciones - Admin';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <?php include __DIR__ . '/../../templates/footer.php'; ?>
 </body>
+
 </html>
