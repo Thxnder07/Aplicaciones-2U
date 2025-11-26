@@ -1,6 +1,9 @@
 <?php
 // index.php - SOLO LÓGICA, CERO HTML AQUÍ
 
+// Cargar configuración primero
+require_once __DIR__ . '/app/config/config.php';
+
 // Iniciar sesión si no está iniciada
 if (session_status() === PHP_SESSION_NONE) {
     session_start();

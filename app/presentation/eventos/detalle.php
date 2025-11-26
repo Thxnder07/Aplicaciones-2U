@@ -1,10 +1,18 @@
 <?php
+// Iniciar sesión si no está iniciada
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once __DIR__ . '/../../business/EventoService.php';
 require_once __DIR__ . '/../../business/CursoService.php';
+require_once __DIR__ . '/../../business/InscripcionService.php';
 require_once __DIR__ . '/../../utils/MessageHandler.php';
+require_once __DIR__ . '/../../middleware/AuthMiddleware.php';
 
 $eventoService = new EventoService();
 $cursoService = new CursoService();
+$inscripcionService = new InscripcionService();
 
 // Obtener ID del evento
 $evento_id = isset($_GET['id']) ? (int) $_GET['id'] : null;
@@ -12,6 +20,28 @@ $evento_id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 if (!$evento_id) {
     MessageHandler::setError('Evento no especificado.');
     header("Location: index.php?view=eventos");
+    exit;
+}
+
+// PROCESAR INSCRIPCIÓN
+if (isset($_GET['inscribir']) && (int)$_GET['inscribir'] == $evento_id) {
+    // Verificar que el usuario esté autenticado
+    if (!AuthMiddleware::verificar()) {
+        MessageHandler::setError('Debes iniciar sesión para inscribirte.');
+        header("Location: index.php?view=login&redirect=" . urlencode("index.php?view=eventos/detalle&id=$evento_id"));
+        exit;
+    }
+
+    $usuario_id = $_SESSION['usuario_id'];
+    $resultado = $inscripcionService->inscribirAEvento($usuario_id, $evento_id);
+
+    if ($resultado['success']) {
+        MessageHandler::setSuccess($resultado['mensaje']);
+    } else {
+        MessageHandler::setError($resultado['mensaje']);
+    }
+
+    header("Location: index.php?view=eventos/detalle&id=$evento_id");
     exit;
 }
 
@@ -26,6 +56,12 @@ if (!$evento) {
 
 // Obtener cursos asociados al evento
 $cursos = $cursoService->obtenerCursosPorEvento($evento_id);
+
+// Verificar si el usuario está inscrito (si está autenticado)
+$estaInscrito = false;
+if (isset($_SESSION['usuario_id'])) {
+    $estaInscrito = $inscripcionService->estaInscritoEnEvento($_SESSION['usuario_id'], $evento_id);
+}
 
 // Calcular base_url para rutas de recursos
 $path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
@@ -277,19 +313,42 @@ $title = htmlspecialchars($evento['titulo']) . ' - EventHub';
                 <!-- Botón de Inscripción -->
                 <?php if (($evento['estado'] ?? 'activo') == 'activo'): ?>
                     <?php if (isset($_SESSION['usuario_id'])): ?>
-                        <?php 
-                        // Verificar si ya está inscrito (esto requeriría InscripcionService)
-                        // Por ahora solo mostramos el botón
-                        ?>
-                        <div class="event-info-card text-center">
-                            <a href="index.php?view=eventos&inscribir=<?php echo $evento['id']; ?>" 
-                               class="btn btn-primary btn-lg w-100 mb-3">
-                                <i class="fas fa-user-plus"></i> Inscribirse al Evento
-                            </a>
-                            <?php if (!empty($cursos)): ?>
-                                <p class="text-muted small">También puedes inscribirte a cursos específicos del evento</p>
+                        <?php if ($estaInscrito): ?>
+                            <div class="event-info-card text-center">
+                                <div class="alert alert-success mb-3">
+                                    <i class="fas fa-check-circle"></i> 
+                                    <strong>Ya estás inscrito</strong>
+                                    <p class="mb-0 small">Tu inscripción está confirmada</p>
+                                </div>
+                                <a href="index.php?view=usuario/dashboard" class="btn btn-outline-primary btn-lg w-100">
+                                    <i class="fas fa-user"></i> Ver Mis Inscripciones
+                                </a>
+                            </div>
+                        <?php else: ?>
+                            <?php 
+                            $cupos_disponibles = $evento['cupos_disponibles'] ?? $evento['cupos'] ?? 0;
+                            if ($cupos_disponibles > 0): 
+                            ?>
+                                <div class="event-info-card text-center">
+                                    <a href="index.php?view=eventos/detalle&id=<?php echo $evento['id']; ?>&inscribir=<?php echo $evento['id']; ?>" 
+                                       class="btn btn-primary btn-lg w-100 mb-3"
+                                       onclick="return confirm('¿Confirmas tu inscripción a este evento?');">
+                                        <i class="fas fa-user-plus"></i> Inscribirse al Evento
+                                    </a>
+                                    <?php if (!empty($cursos)): ?>
+                                        <p class="text-muted small">También puedes inscribirte a cursos específicos del evento</p>
+                                    <?php endif; ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="event-info-card text-center">
+                                    <div class="alert alert-warning mb-0">
+                                        <i class="fas fa-exclamation-triangle"></i> 
+                                        <strong>Sin cupos disponibles</strong>
+                                        <p class="mb-0 small">Este evento ya no tiene cupos disponibles</p>
+                                    </div>
+                                </div>
                             <?php endif; ?>
-                        </div>
+                        <?php endif; ?>
                     <?php else: ?>
                         <div class="event-info-card text-center">
                             <p class="mb-3">Para inscribirte necesitas iniciar sesión</p>

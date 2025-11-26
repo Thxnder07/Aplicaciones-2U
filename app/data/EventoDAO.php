@@ -135,6 +135,17 @@ class EventoDAO {
         return $stmt->execute();
     }
 
+    /**
+     * Incrementar cupos disponibles
+     */
+    public function incrementarCupos($id) {
+        $query = "UPDATE eventos SET cupos_disponibles = cupos_disponibles + 1 
+                  WHERE id = :id AND cupos_disponibles < cupos";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        return $stmt->execute();
+    }
+
     // Eliminar evento (Nuevo método que faltaba)
     public function eliminar($id) {
         $query = "DELETE FROM eventos WHERE id = :id";

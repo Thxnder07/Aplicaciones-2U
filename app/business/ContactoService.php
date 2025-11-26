@@ -23,6 +23,11 @@ class ContactoService {
 
         // 2. Guardar en BD (Lógica directa o vía DAO)
         try {
+            // Sanitizar entradas
+            $nombre = htmlspecialchars(trim($nombre), ENT_QUOTES, 'UTF-8');
+            $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
+            $mensaje = htmlspecialchars(trim($mensaje), ENT_QUOTES, 'UTF-8');
+            
             $sql = "INSERT INTO mensajes (nombre, email, mensaje) VALUES (:nom, :email, :msj)";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':nom', $nombre);
@@ -32,7 +37,9 @@ class ContactoService {
             
             return ["status" => "success", "msg" => "¡Mensaje enviado! Nos pondremos en contacto pronto."];
         } catch (PDOException $e) {
-            return ["status" => "error", "msg" => "Error del sistema: " . $e->getMessage()];
+            // En producción, no exponer detalles del error
+            error_log("Error al guardar mensaje de contacto: " . $e->getMessage());
+            return ["status" => "error", "msg" => "Error al procesar su mensaje. Por favor, intente nuevamente más tarde."];
         }
     }
 }
