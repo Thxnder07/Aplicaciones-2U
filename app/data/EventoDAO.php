@@ -31,14 +31,19 @@ class EventoDAO {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Obtener el último ID insertado
+    public function obtenerUltimoId() {
+        return $this->conn->lastInsertId();
+    }
+
     // ====================================================================
     // 2. MÉTODOS DE ESCRITURA (CREATE, UPDATE, DELETE)
     // ====================================================================
 
     // Crear nuevo evento (Actualizado con nuevos campos)
-    public function crear($titulo, $fecha_texto, $lugar, $precio, $imagen, $descripcion, $horario, $estado = 'activo', $cupos = 100) {
-        $query = "INSERT INTO eventos (titulo, fecha_texto, lugar, precio, imagen, descripcion_breve, horario, estado, cupos, cupos_disponibles) 
-                  VALUES (:titulo, :fecha, :lugar, :precio, :imagen, :desc, :hora, :estado, :cupos, :cupos_disponibles)";
+    public function crear($titulo, $fecha_texto, $lugar, $precio, $imagen, $descripcion, $horario, $estado = 'activo', $cupos = 100, $fecha_inicio = null, $destacado = 1) {
+        $query = "INSERT INTO eventos (titulo, fecha_texto, fecha_inicio, lugar, precio, imagen, descripcion_breve, horario, estado, cupos, cupos_disponibles, destacado) 
+                  VALUES (:titulo, :fecha, :fecha_inicio, :lugar, :precio, :imagen, :desc, :hora, :estado, :cupos, :cupos_disponibles, :destacado)";
         
         $stmt = $this->conn->prepare($query);
         
@@ -46,6 +51,7 @@ class EventoDAO {
         return $stmt->execute([
             ':titulo' => $titulo,
             ':fecha'  => $fecha_texto,
+            ':fecha_inicio' => $fecha_inicio,
             ':lugar'  => $lugar,
             ':precio' => $precio,
             ':imagen' => $imagen,
@@ -53,12 +59,13 @@ class EventoDAO {
             ':hora'   => $horario,
             ':estado' => $estado,
             ':cupos' => $cupos,
-            ':cupos_disponibles' => $cupos
+            ':cupos_disponibles' => $cupos,
+            ':destacado' => $destacado ? 1 : 0
         ]);
     }
 
     // Actualizar evento existente (Nuevo método que faltaba)
-    public function actualizar($id, $titulo, $fecha_texto, $lugar, $precio, $imagen, $descripcion, $horario, $estado = null, $cupos = null) {
+    public function actualizar($id, $titulo, $fecha_texto, $lugar, $precio, $imagen, $descripcion, $horario, $estado = null, $cupos = null, $fecha_inicio = null, $destacado = null) {
         $query = "UPDATE eventos SET 
                     titulo = :titulo, 
                     fecha_texto = :fecha, 
@@ -79,6 +86,11 @@ class EventoDAO {
             ':hora'   => $horario
         ];
         
+        if ($fecha_inicio !== null) {
+            $query .= ", fecha_inicio = :fecha_inicio";
+            $params[':fecha_inicio'] = $fecha_inicio;
+        }
+        
         if ($estado !== null) {
             $query .= ", estado = :estado";
             $params[':estado'] = $estado;
@@ -87,6 +99,11 @@ class EventoDAO {
         if ($cupos !== null) {
             $query .= ", cupos = :cupos";
             $params[':cupos'] = $cupos;
+        }
+        
+        if ($destacado !== null) {
+            $query .= ", destacado = :destacado";
+            $params[':destacado'] = $destacado ? 1 : 0;
         }
         
         $query .= " WHERE id = :id";
@@ -113,6 +130,17 @@ class EventoDAO {
     public function decrementarCupos($id) {
         $query = "UPDATE eventos SET cupos_disponibles = cupos_disponibles - 1 
                   WHERE id = :id AND cupos_disponibles > 0";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        return $stmt->execute();
+    }
+
+    /**
+     * Incrementar cupos disponibles
+     */
+    public function incrementarCupos($id) {
+        $query = "UPDATE eventos SET cupos_disponibles = cupos_disponibles + 1 
+                  WHERE id = :id AND cupos_disponibles < cupos";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $id);
         return $stmt->execute();

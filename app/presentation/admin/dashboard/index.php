@@ -197,7 +197,7 @@ $title = 'Dashboard Admin - EventHub';
                 <div class="row">
                     <div class="col-md-6">
                         <div class="action-card">
-                            <a href="../../../../index.php?view=admin/eventos/index">
+                            <a href="index.php?view=admin/eventos/index">
                                 <div>
                                     <h5><i class="fas fa-calendar-plus"></i> Gestión de Eventos</h5>
                                     <p class="mb-0 text-muted">Crear, editar y eliminar eventos</p>
@@ -208,7 +208,7 @@ $title = 'Dashboard Admin - EventHub';
                     </div>
                     <div class="col-md-6">
                         <div class="action-card">
-                            <a href="../../../../index.php?view=admin/noticias/index">
+                            <a href="index.php?view=admin/noticias/index">
                                 <div>
                                     <h5><i class="fas fa-newspaper"></i> Gestión de Noticias</h5>
                                     <p class="mb-0 text-muted">Administrar noticias del sitio</p>
@@ -219,7 +219,7 @@ $title = 'Dashboard Admin - EventHub';
                     </div>
                     <div class="col-md-6">
                         <div class="action-card">
-                            <a href="../../../../index.php?view=admin/cursos/index">
+                            <a href="index.php?view=admin/cursos/index">
                                 <div>
                                     <h5><i class="fas fa-graduation-cap"></i> Gestión de Cursos</h5>
                                     <p class="mb-0 text-muted">Crear, editar y administrar cursos</p>
@@ -230,7 +230,7 @@ $title = 'Dashboard Admin - EventHub';
                     </div>
                     <div class="col-md-6">
                         <div class="action-card">
-                            <a href="../../../../index.php?view=admin/inscripciones/index">
+                            <a href="index.php?view=admin/inscripciones/index">
                                 <div>
                                     <h5><i class="fas fa-list-check"></i> Inscripciones</h5>
                                     <p class="mb-0 text-muted">Ver y gestionar todas las inscripciones</p>
@@ -241,7 +241,7 @@ $title = 'Dashboard Admin - EventHub';
                     </div>
                     <div class="col-md-6">
                         <div class="action-card">
-                            <a href="../../../../index.php?view=admin/log/index">
+                            <a href="index.php?view=admin/log/index">
                                 <div>
                                     <h5><i class="fas fa-history"></i> Log de Acciones</h5>
                                     <p class="mb-0 text-muted">Ver registro de acciones administrativas</p>

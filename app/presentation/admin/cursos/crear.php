@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($resultado['success']) {
         MessageHandler::setSuccess($resultado['msg']);
         $evento_id_redirect = $_POST['evento_id'] ?? $evento_id_get;
-        $redirect = $evento_id_redirect ? "?evento_id=$evento_id_redirect" : "";
-        header("Location: index.php$redirect");
+        $redirect = $evento_id_redirect ? "&evento_id=$evento_id_redirect" : "";
+        header("Location: index.php?view=admin/cursos/index$redirect");
         exit;
     } else {
         $errores = $resultado['errores'];
@@ -76,24 +76,51 @@ $title = isset($curso['id']) ? 'Editar Curso - Admin' : 'Nuevo Curso - Admin';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title>
     
-    <link rel="stylesheet" href="public/css/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../public/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .admin-container {
+            min-height: 100vh;
+            background: #f5f7fa;
+            padding: 30px 0;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        .form-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+    </style>
 </head>
 <body>
     <?php include __DIR__ . '/../../templates/header.php'; ?>
 
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">
-                            <i class="fas fa-graduation-cap"></i> 
-                            <?php echo isset($curso['id']) ? 'Editar Curso' : 'Nuevo Curso'; ?>
-                        </h4>
-                    </div>
-                    <div class="card-body">
+    <div class="admin-container">
+        <div class="container">
+            <!-- Header de la página -->
+            <div class="page-header">
+                <h1>
+                    <i class="fas fa-<?= isset($curso['id']) ? 'edit' : 'plus-circle' ?>"></i> 
+                    <?= isset($curso['id']) ? 'Editar Curso' : 'Nuevo Curso' ?>
+                </h1>
+                <p class="mb-0"><?= isset($curso['id']) ? 'Modifica la información del curso' : 'Completa el formulario para crear un nuevo curso' ?></p>
+            </div>
+
+            <!-- Formulario -->
+            <div class="form-card">
                         
                         <!-- Mensajes Flash -->
                         <?php if ($mensajeFlash): ?>
@@ -211,18 +238,23 @@ $title = isset($curso['id']) ? 'Editar Curso - Admin' : 'Nuevo Curso - Admin';
                             <?php endif; ?>
 
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="index.php?view=admin/cursos/index<?php echo isset($curso['evento_id']) ? "?evento_id={$curso['evento_id']}" : ($evento_id_get ? "?evento_id=$evento_id_get" : ""); ?>" 
-                                   class="btn btn-secondary">
+                                <a href="index.php?view=admin/cursos/index<?php echo isset($curso['evento_id']) ? "&evento_id={$curso['evento_id']}" : ($evento_id_get ? "&evento_id=$evento_id_get" : ""); ?>" 
+                                   class="btn btn-secondary btn-lg">
                                     <i class="fas fa-times"></i> Cancelar
                                 </a>
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save"></i> Guardar Curso
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-save"></i> <?= isset($curso['id']) ? 'Actualizar Curso' : 'Crear Curso' ?>
                                 </button>
                             </div>
                         </form>
+            </div>
 
-                    </div>
-                </div>
+            <!-- Botón volver -->
+            <div class="mt-4">
+                <a href="index.php?view=admin/cursos/index<?php echo isset($curso['evento_id']) ? "&evento_id={$curso['evento_id']}" : ($evento_id_get ? "&evento_id=$evento_id_get" : ""); ?>" 
+                   class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver a la Lista
+                </a>
             </div>
         </div>
     </div>

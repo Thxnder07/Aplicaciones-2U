@@ -58,7 +58,7 @@ $title = 'Log de Acciones - Admin';
                 <p class="text-muted mb-0">Registro de todas las acciones administrativas</p>
             </div>
             <div>
-                <a href="../../../../index.php?view=admin/dashboard" class="btn btn-secondary">
+                <a href="index.php?view=admin/dashboard" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Volver
                 </a>
             </div>
@@ -102,7 +102,7 @@ $title = 'Log de Acciones - Admin';
                         </button>
                     </div>
                     <div class="col-md-3">
-                        <a href="index.php" class="btn btn-outline-secondary w-100">
+                        <a href="index.php?view=admin/log/index" class="btn btn-outline-secondary w-100">
                             <i class="fas fa-redo"></i> Limpiar Filtros
                         </a>
                     </div>
