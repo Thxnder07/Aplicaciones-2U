@@ -1,6 +1,6 @@
 <?php 
-// Aseguramos la ruta absoluta
-if(!isset($base_url)) { $base_url = '/laravel/Aplicaciones-2U/public/'; }
+$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+    $base_url = $path . '/public/';
 ?>
      <footer>
     <div class="container">
