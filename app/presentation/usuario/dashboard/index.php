@@ -15,6 +15,10 @@ $eventosDisponibles = array_slice($eventos, 0, 6); // Mostrar solo los primeros 
 // Obtener mensaje flash si existe
 $mensajeFlash = MessageHandler::getFlash();
 
+// Calcular base_url para rutas de recursos
+$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+$base_url = $path . '/public/';
+
 $page = 'usuario_dashboard';
 $title = 'Mi Dashboard - EventHub';
 ?>
@@ -27,7 +31,7 @@ $title = 'Mi Dashboard - EventHub';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title>
 
-    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -152,8 +156,9 @@ $title = 'Mi Dashboard - EventHub';
                         <?php foreach ($eventosDisponibles as $evento): ?>
                             <div class="col-md-4">
                                 <div class="event-card">
-                                    <img src="public/<?php echo htmlspecialchars($evento['imagen'] ?? 'img/eventos/evento1.jpg'); ?>"
-                                        alt="<?php echo htmlspecialchars($evento['titulo']); ?>">
+                                    <img src="<?php echo $base_url . htmlspecialchars($evento['imagen'] ?? 'img/eventos/evento1.jpg'); ?>"
+                                        alt="<?php echo htmlspecialchars($evento['titulo']); ?>"
+                                        onerror="this.src='<?php echo $base_url; ?>img/eventos/evento1.jpg'">
                                     <div class="event-card-body">
                                         <h5><?php echo htmlspecialchars($evento['titulo']); ?></h5>
                                         <p class="text-muted mb-2">
@@ -166,9 +171,9 @@ $title = 'Mi Dashboard - EventHub';
                                         </p>
                                         <p class="mb-3">
                                             <strong
-                                                class="text-primary">$<?php echo htmlspecialchars($evento['precio'] ?? '0'); ?></strong>
+                                                class="text-primary">$<?php echo number_format($evento['precio'] ?? 0, 2); ?></strong>
                                         </p>
-                                        <a href="index.php?view=eventos" class="btn btn-outline-primary btn-sm w-100">
+                                        <a href="index.php?view=eventos/detalle&id=<?php echo $evento['id']; ?>" class="btn btn-outline-primary btn-sm w-100">
                                             <i class="fas fa-info-circle"></i> Ver Detalles
                                         </a>
                                     </div>

@@ -15,6 +15,7 @@ $routes = [
     // Rutas públicas
     'home'           => 'app/presentation/home/index.php',
     'eventos'        => 'app/presentation/eventos/index.php',
+    'eventos/detalle' => 'app/presentation/eventos/detalle.php',
     'ponentes'       => 'app/presentation/ponentes/index.php',
     'patrocinadores' => 'app/presentation/patrocinadores/index.php',
     'noticias'       => 'app/presentation/noticias/index.php',

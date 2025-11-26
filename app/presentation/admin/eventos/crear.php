@@ -51,6 +51,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 // Obtener mensaje flash si existe
 $mensajeFlash = MessageHandler::getFlash();
 
+// Calcular base_url para rutas de recursos
+$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+$base_url = $path . '/public/';
+
 $page = 'admin_eventos';
 $title = ($esEdicion ? 'Editar' : 'Nuevo') . ' Evento - Admin';
 ?>
@@ -62,7 +66,7 @@ $title = ($esEdicion ? 'Editar' : 'Nuevo') . ' Evento - Admin';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title>
     
-    <link rel="stylesheet" href="../../../../public/css/styles.css">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -268,7 +272,7 @@ $title = ($esEdicion ? 'Editar' : 'Nuevo') . ' Evento - Admin';
                         <?php if(!empty($evento['imagen'])): ?>
                             <div class="mt-3">
                                 <p class="mb-2"><strong>Imagen actual:</strong></p>
-                                <img src="../../../../public/<?= htmlspecialchars($evento['imagen']) ?>" 
+                                <img src="<?php echo $base_url . htmlspecialchars($evento['imagen']); ?>" 
                                      alt="Imagen actual" 
                                      class="preview-image"
                                      onerror="this.style.display='none'">

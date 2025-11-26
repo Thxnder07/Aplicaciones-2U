@@ -39,6 +39,10 @@ $eventos = $service->listarEventos();
 // Obtener mensaje flash si existe
 $mensajeFlash = MessageHandler::getFlash();
 
+// Calcular base_url para rutas de recursos
+$path = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+$base_url = $path . '/public/';
+
 $page = 'admin_eventos';
 $title = 'Gestión de Eventos - Admin';
 ?>
@@ -50,7 +54,7 @@ $title = 'Gestión de Eventos - Admin';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $title; ?></title>
     
-    <link rel="stylesheet" href="../../../../public/css/styles.css">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -148,9 +152,16 @@ $title = 'Gestión de Eventos - Admin';
                                     <?php foreach($eventos as $ev): ?>
                                     <tr>
                                         <td>
-                                            <img src="../../../../public/<?= htmlspecialchars($ev['imagen'] ?? '') ?>" 
-                                                 alt="<?= htmlspecialchars($ev['titulo']) ?>" 
-                                                 onerror="this.src='../../../../public/img/eventos/evento1.jpg'">
+                                            <?php if (!empty($ev['imagen'])): ?>
+                                                <img src="<?php echo $base_url . htmlspecialchars($ev['imagen']); ?>" 
+                                                     alt="<?= htmlspecialchars($ev['titulo']) ?>" 
+                                                     style="height: 50px; width: 50px; object-fit: cover; border-radius: 5px;"
+                                                     onerror="this.src='<?php echo $base_url; ?>img/eventos/evento1.jpg'">
+                                            <?php else: ?>
+                                                <img src="<?php echo $base_url; ?>img/eventos/evento1.jpg" 
+                                                     alt="Sin imagen"
+                                                     style="height: 50px; width: 50px; object-fit: cover; border-radius: 5px;">
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <strong><?= htmlspecialchars($ev['titulo']) ?></strong>
