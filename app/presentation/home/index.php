@@ -1,78 +1,143 @@
-<?php 
+<?php
 $page = 'home';
-$title = 'EventHub | Inicio';
-include 'app/presentation/templates/header.php'; 
+$title = 'EventHub | Congresos y Seminarios';
+include 'app/presentation/templates/header.php';
 ?>
 
-<section class="banner">
+<section class="hero">
+    <div class="container reveal">
+        <p class="reveal-delay-1">— IMPULSE SU CURRICULUM ACADÉMICO —</p>
+        <h1 class="reveal-delay-2">Congresos internacionales científicos y seminarios de vanguardia</h1>
+        <p class="reveal-delay-3">Conecta con expertos, comparte conocimiento y vive una experiencia académica única.
+        </p>
+        <a href="index.php?view=eventos" class="btn btn-primary reveal-delay-3">Ver Congresos Programados</a>
+    </div>
+</section>
+
+<section class="section-padding">
     <div class="container">
-        <h2>Explora los mejores Congresos y Seminarios</h2>
-        <p>Conecta con expertos, comparte conocimiento y vive una experiencia académica única.</p>
+        <div class="text-center mb-8 reveal">
+            <h2>Próximos Eventos</h2>
+            <p>Organizados junto a instituciones académicas de referencia</p>
+        </div>
+
+        <div class="event-list">
+            <!-- Evento 1 -->
+            <div class="event-item reveal">
+                <div class="event-date-box">
+                    <span class="day">10</span>
+                    <span class="month">Nov 2025</span>
+                </div>
+                <div class="event-info">
+                    <h3>Congreso de Innovación Tecnológica</h3>
+                    <p>Lima, Perú — Presencial y Virtual</p>
+                </div>
+                <div class="event-action">
+                    <span class="event-status">Abierto Registro &rarr;</span>
+                </div>
+            </div>
+
+            <!-- Evento 2 -->
+            <div class="event-item reveal">
+                <div class="event-date-box">
+                    <span class="day">25</span>
+                    <span class="month">Nov 2025</span>
+                </div>
+                <div class="event-info">
+                    <h3>Seminario Digital de Marketing</h3>
+                    <p>Virtual — Plataforma Zoom</p>
+                </div>
+                <div class="event-action">
+                    <span class="event-status">En Preparación &rarr;</span>
+                </div>
+            </div>
+
+            <!-- Evento 3 -->
+            <div class="event-item reveal">
+                <div class="event-date-box">
+                    <span class="day">02</span>
+                    <span class="month">Dic 2025</span>
+                </div>
+                <div class="event-info">
+                    <h3>Congreso Internacional de Ciencia</h3>
+                    <p>Arequipa, Perú</p>
+                </div>
+                <div class="event-action">
+                    <span class="event-status">Call for Papers &rarr;</span>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
-
-
-<section class="container" style="padding: 4rem 0;">
-    <h2>Próximos eventos</h2>
-    <div class="grid-3">
-        <div class="card">
-            <img src="public/img/eventos/evento1.jpg" alt="Evento Tech" class="event-img">
-            <div class="card-content">
-                <h3>Congreso de Innovación</h3>
-                <p>Del 10 al 12 de noviembre — Lima, Perú</p>
-            </div>
-        </div>
-        <div class="card">
-            <img src="public/img/eventos/evento2.jpg" alt="Evento Digital" class="event-img">
-            <div class="card-content">
-                <h3>Seminario Digital</h3>
-                <p>25 de noviembre — Virtual</p>
-            </div>
-        </div>
-        <div class="card">
-            <img src="public/img/eventos/evento3.jpg" alt="Congreso Ciencia" class="event-img">
-            <div class="card-content">
-                <h3>Congreso de Ciencia</h3>
-                <p>2 al 4 de diciembre — Arequipa</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="beneficios">
+<section class="section-padding" style="background-color: #f8fafc;">
     <div class="container">
-        <h2>¿Por qué participar?</h2>
-        <div class="beneficios-lista">
-            <div class="beneficio">
-                <h3>Aprendizaje</h3>
-                <p>Accede a charlas de expertos y amplía tus conocimientos.</p>
-            </div>
-            <div class="beneficio">
-                <h3>Networking</h3>
-                <p>Conecta con profesionales e investigadores.</p>
-            </div>
-            <div class="beneficio">
-                <h3>Experiencia</h3>
-                <p>Vive una experiencia académica enriquecedora.</p>
-            </div>
+        <div class="text-center mb-8 reveal">
+            <h2>Áreas de Conocimiento</h2>
+            <p>Consulte nuestra oferta de Congresos según su interés</p>
+        </div>
+        <div class="areas-grid">
+            <a href="#" class="area-card reveal reveal-delay-1">
+                <h4>Ciencias de la Salud</h4>
+            </a>
+            <a href="#" class="area-card reveal reveal-delay-2">
+                <h4>Educación</h4>
+            </a>
+            <a href="#" class="area-card reveal reveal-delay-3">
+                <h4>Tecnología</h4>
+            </a>
+            <a href="#" class="area-card reveal reveal-delay-1">
+                <h4>Ciencias Sociales</h4>
+            </a>
+            <a href="#" class="area-card reveal reveal-delay-2">
+                <h4>Arte y Humanidades</h4>
+            </a>
+            <a href="#" class="area-card reveal reveal-delay-3">
+                <h4>Economía</h4>
+            </a>
+            <a href="#" class="area-card reveal reveal-delay-1">
+                <h4>Derecho</h4>
+            </a>
+            <a href="#" class="area-card reveal reveal-delay-2">
+                <h4>Ingeniería</h4>
+            </a>
         </div>
     </div>
 </section>
 
- <section class="sobre">
-        <div class="container">
-            <h2>Sobre EventHub</h2>
-            <p>
-                <strong>EventHub</strong> es una plataforma dedicada a la difusión y promoción de congresos, seminarios y eventos académicos
-                a nivel nacional e internacional. Nuestro objetivo es conectar a estudiantes, profesionales e instituciones
-                en un espacio digital donde el conocimiento y la innovación se encuentren.
-            </p>
-            <p>
-                Aquí encontrarás información actualizada sobre los próximos eventos, ponentes destacados y oportunidades
-                para fortalecer tu desarrollo académico y profesional.
-            </p>
+<section class="newsletter reveal">
+    <div class="container">
+        <h2>Newsletter</h2>
+        <p>Suscríbase y manténgase al día de los nuevos congresos confirmados</p>
+        <form class="newsletter-form">
+            <input type="email" placeholder="Su correo electrónico" class="newsletter-input">
+            <button type="submit" class="btn-subscribe">Suscribirme</button>
+        </form>
+    </div>
+</section>
+
+<section class="section-padding">
+    <div class="container text-center">
+        <h2 class="reveal">Nuestra experiencia a su servicio</h2>
+        <p class="mb-4 reveal">Más de 20.000 participantes han pasado por nuestros congresos.</p>
+        <div class="grid-3">
+            <div class="reveal reveal-delay-1">
+                <h3 style="font-size: 2.5rem; color: var(--secondary-color);">+<span class="counter-number"
+                        data-target="50">0</span></h3>
+                <p>Eventos Realizados</p>
+            </div>
+            <div class="reveal reveal-delay-2">
+                <h3 style="font-size: 2.5rem; color: var(--secondary-color);">+<span class="counter-number"
+                        data-target="20" data-suffix="k">0</span></h3>
+                <p>Participantes</p>
+            </div>
+            <div class="reveal reveal-delay-3">
+                <h3 style="font-size: 2.5rem; color: var(--secondary-color);"><span class="counter-number"
+                        data-target="100" data-suffix="%">0</span></h3>
+                <p>Satisfacción</p>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
 <?php include 'app/presentation/templates/footer.php'; ?>

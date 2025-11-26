@@ -36,9 +36,9 @@ class EventoDAO {
     // ====================================================================
 
     // Crear nuevo evento (Actualizado con nuevos campos)
-    public function crear($titulo, $fecha_texto, $lugar, $precio, $imagen, $descripcion, $horario) {
-        $query = "INSERT INTO eventos (titulo, fecha_texto, lugar, precio, imagen, descripcion_breve, horario) 
-                  VALUES (:titulo, :fecha, :lugar, :precio, :imagen, :desc, :hora)";
+    public function crear($titulo, $fecha_texto, $lugar, $precio, $imagen, $descripcion, $horario, $estado = 'activo', $cupos = 100) {
+        $query = "INSERT INTO eventos (titulo, fecha_texto, lugar, precio, imagen, descripcion_breve, horario, estado, cupos, cupos_disponibles) 
+                  VALUES (:titulo, :fecha, :lugar, :precio, :imagen, :desc, :hora, :estado, :cupos, :cupos_disponibles)";
         
         $stmt = $this->conn->prepare($query);
         
@@ -50,12 +50,15 @@ class EventoDAO {
             ':precio' => $precio,
             ':imagen' => $imagen,
             ':desc'   => $descripcion,
-            ':hora'   => $horario
+            ':hora'   => $horario,
+            ':estado' => $estado,
+            ':cupos' => $cupos,
+            ':cupos_disponibles' => $cupos
         ]);
     }
 
     // Actualizar evento existente (Nuevo método que faltaba)
-    public function actualizar($id, $titulo, $fecha_texto, $lugar, $precio, $imagen, $descripcion, $horario) {
+    public function actualizar($id, $titulo, $fecha_texto, $lugar, $precio, $imagen, $descripcion, $horario, $estado = null, $cupos = null) {
         $query = "UPDATE eventos SET 
                     titulo = :titulo, 
                     fecha_texto = :fecha, 
@@ -63,12 +66,9 @@ class EventoDAO {
                     precio = :precio, 
                     imagen = :imagen, 
                     descripcion_breve = :desc, 
-                    horario = :hora 
-                  WHERE id = :id";
+                    horario = :hora";
         
-        $stmt = $this->conn->prepare($query);
-        
-        return $stmt->execute([
+        $params = [
             ':id'     => $id,
             ':titulo' => $titulo,
             ':fecha'  => $fecha_texto,
@@ -77,7 +77,45 @@ class EventoDAO {
             ':imagen' => $imagen,
             ':desc'   => $descripcion,
             ':hora'   => $horario
+        ];
+        
+        if ($estado !== null) {
+            $query .= ", estado = :estado";
+            $params[':estado'] = $estado;
+        }
+        
+        if ($cupos !== null) {
+            $query .= ", cupos = :cupos";
+            $params[':cupos'] = $cupos;
+        }
+        
+        $query .= " WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute($params);
+    }
+    
+    /**
+     * Cambiar estado del evento
+     */
+    public function cambiarEstado($id, $estado) {
+        $query = "UPDATE eventos SET estado = :estado WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        return $stmt->execute([
+            ':id' => $id,
+            ':estado' => $estado
         ]);
+    }
+    
+    /**
+     * Decrementar cupos disponibles
+     */
+    public function decrementarCupos($id) {
+        $query = "UPDATE eventos SET cupos_disponibles = cupos_disponibles - 1 
+                  WHERE id = :id AND cupos_disponibles > 0";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        return $stmt->execute();
     }
 
     // Eliminar evento (Nuevo método que faltaba)

@@ -53,6 +53,8 @@ $eventos = $service->listarEventos();
                         <th>Imagen</th>
                         <th>Título</th>
                         <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Cupos</th>
                         <th>Precio</th>
                         <th>Acciones</th>
                     </tr>
@@ -65,6 +67,23 @@ $eventos = $service->listarEventos();
                         </td>
                         <td><?= htmlspecialchars($ev['titulo']) ?></td>
                         <td><?= htmlspecialchars($ev['fecha_texto']) ?></td>
+                        <td>
+                            <?php 
+                            $estado = $ev['estado'] ?? 'activo';
+                            $badgeClass = ($estado == 'activo') ? 'bg-success' : 'bg-secondary';
+                            ?>
+                            <span class="badge <?= $badgeClass ?>"><?= ucfirst($estado) ?></span>
+                        </td>
+                        <td>
+                            <?php 
+                            $cupos_disponibles = $ev['cupos_disponibles'] ?? $ev['cupos'] ?? 0;
+                            $cupos = $ev['cupos'] ?? 0;
+                            $cupoClass = ($cupos_disponibles > 0) ? 'text-success' : 'text-danger';
+                            ?>
+                            <span class="<?= $cupoClass ?>">
+                                <?= $cupos_disponibles ?> / <?= $cupos ?>
+                            </span>
+                        </td>
                         <td>$<?= htmlspecialchars($ev['precio']) ?></td>
                         <td>
                             <a href="crear.php?id=<?= $ev['id'] ?>" class="btn btn-sm btn-info text-white">Editar</a>
