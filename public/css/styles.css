@@ -2139,3 +2139,60 @@ footer a:hover {
         transform: translateY(-1px);
         box-shadow: 0 4px 8px rgba(191, 161, 95, 0.3);
     }
+/* Ponentes Section */
+.ponentes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.ponente-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+.ponente-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--secondary-color);
+}
+
+.ponente-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    object-position: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ponente-info {
+    padding: 1.5rem;
+}
+
+.ponente-info h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.ponente-info .cargo {
+    color: var(--secondary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ponente-info .tema {
+    color: #64748b;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
